@@ -1,0 +1,14 @@
+name: Close external PRs
+
+on:
+  pull_request_target:
+    types: [opened]
+
+jobs:
+  close:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login != 'liuyipei'
+    steps:
+      - run: gh pr close ${{ github.event.pull_request.number }} --repo ${{ github.repository }} --comment "This repository does not accept pull requests. Thank you for your interest."
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
